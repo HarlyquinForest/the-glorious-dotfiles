@@ -23,7 +23,7 @@ local config = require('configuration.config')
 
 -- Configuration
 local interfaces = {
-	wlan_interface = config.widget.network.wireless_interface or 'wlp0s20f0u9u1',
+	wlan_interface = config.widget.network.wireless_interface or 'wlan0',
 	lan_interface = config.widget.network.wired_interface or 'enp6s0'
 }
 
@@ -140,12 +140,12 @@ local return_button = function()
 		-- Get wifi essid and bitrate
 		local update_wireless_data = function(strength, healthy)
 			awful.spawn.easy_async_with_shell(
-				[[
-				iw dev ]] .. interfaces.wlan_interface .. [[ link
-				]],
+				[=[
+				iwconfig "]=] .. tostring(interfaces.wlan_interface) .. [=["
+				]=],
 				function(stdout)
-					local essid = stdout:match('SSID: (.-)\n') or 'N/A'
-					local bitrate = stdout:match('tx bitrate: (.+/s)') or 'N/A'
+					local essid = stdout:match('ESSID:(.-)\n') or 'N/A'
+					local bitrate = stdout:match('Bit Rate=(.+/s)') or 'N/A'
 					local message = 'Connected to: <b>' .. (essid or 'Loading...*') ..
 						'</b>\nWireless Interface: <b>' .. interfaces.wlan_interface ..
 						'</b>\nWiFi-Strength: <b>' .. tostring(wifi_strength) .. '%' ..
