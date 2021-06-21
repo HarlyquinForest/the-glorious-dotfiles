@@ -59,6 +59,8 @@ return {
 		'blueman-applet',
 		-- Music server
 		'mpd',
+		--light-locker
+		'light-locker',
 		-- Polkit and keyring
 		'/usr/bin/lxqt-policykit-agent &' ..
 		' eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg)',
